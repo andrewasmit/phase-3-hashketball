@@ -1,4 +1,5 @@
-# Write your code below game_hash
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -127,3 +128,81 @@ def game_hash
 end
 
 # Write code here
+
+def player_stats(player)
+  game_hash.each do |location, data|
+    data.each do |attribute, data_info|
+      if attribute == :players
+        data_info.each do |player_info|
+          if player_info[:player_name] == player
+          return player_info
+          end
+        end
+      end
+    end
+  end
+  nil
+end
+
+def num_points_scored player
+  player_stats(player)[:points]
+end 
+
+def shoe_size player
+  player_stats(player)[:shoe]
+end 
+
+def team_names
+  newArr =[]
+  game_hash.each do |location, data|
+    data.each do |attribute, data_info|
+      if attribute == :team_name
+          newArr << data_info
+        end
+      end
+  end
+  newArr
+end
+
+
+def team_colors team
+  newArr=[]
+  game_hash.each do |location, data|
+    data.each do |attribute, data_info|
+      if data_info == team
+         newArr << data[:colors]
+        end
+      end
+  end
+  newArr[0]
+end
+
+
+def player_numbers team
+  newArr=[]
+  game_hash.each do |location, data|
+    data.each do |attribute, data_info|
+      if data_info == team
+         data[:players].each do |player_info|
+          newArr << player_info[:number]
+         end
+        end
+      end
+  end
+  newArr
+end
+
+def big_shoe_rebounds
+  newArr=[]
+  shoes=[]
+  game_hash.each do |location, data|
+    newArr << data[:players]
+  end
+  all_stats = newArr.flatten()
+  all_stats.each do |player|
+    shoes << player[:shoe]
+  end
+  target= shoes.max
+  idx = shoes.find_index(target);
+  all_stats[idx][:rebounds]
+end
